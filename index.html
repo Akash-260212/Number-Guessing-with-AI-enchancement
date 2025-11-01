@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Number Guessing Game - Binary Search</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 AI Number Guessing Game</h1>
+            <p class="subtitle">Powered by Binary Search Algorithm</p>
+        </header>
+
+        <main>
+            <!-- Game Setup Section -->
+            <section class="game-setup" id="setupSection">
+                <!-- Feature Showcase -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h3>Smart AI</h3>
+                        <p>Uses binary search algorithm to find your number efficiently</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Fast & Efficient</h3>
+                        <p>Guesses in logarithmic time - incredibly fast!</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Track Stats</h3>
+                        <p>See guess count, time, and efficiency metrics</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Beautiful UI</h3>
+                        <p>Enjoy smooth animations and vibrant colors</p>
+                    </div>
+                </div>
+
+                <div class="card main-setup-card">
+                    <div class="setup-header">
+                        <h2>🎮 Ready to Play?</h2>
+                        <p class="setup-description">Think of a number, and the AI will guess it using binary search!</p>
+                    </div>
+                    
+                    <!-- Quick Start Buttons -->
+                    <div class="quick-start-section">
+                        <h3>Quick Start</h3>
+                        <div class="quick-start-buttons">
+                            <button 
+                                class="quick-start-btn easy" 
+                                data-difficulty="easy"
+                                aria-label="Start easy game (1-100)"
+                            >
+                                <span class="quick-icon">😊</span>
+                                <span class="quick-title">Easy</span>
+                                <span class="quick-range">1 - 100</span>
+                            </button>
+                            <button 
+                                class="quick-start-btn medium" 
+                                data-difficulty="medium"
+                                aria-label="Start medium game (1-1000)"
+                            >
+                                <span class="quick-icon">🤔</span>
+                                <span class="quick-title">Medium</span>
+                                <span class="quick-range">1 - 1,000</span>
+                            </button>
+                            <button 
+                                class="quick-start-btn hard" 
+                                data-difficulty="hard"
+                                aria-label="Start hard game (1-10000)"
+                            >
+                                <span class="quick-icon">🔥</span>
+                                <span class="quick-title">Hard</span>
+                                <span class="quick-range">1 - 10,000</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+
+                    <!-- Custom Setup -->
+                    <div class="setup-content">
+                        <h3>Custom Range</h3>
+                        <div class="custom-inputs">
+                            <div class="input-group">
+                                <label for="minRange" class="sr-only">Minimum Number</label>
+                                <input 
+                                    type="number" 
+                                    id="minRange" 
+                                    placeholder="Min (e.g., 1)" 
+                                    value="1"
+                                    aria-label="Minimum number in range"
+                                >
+                            </div>
+                            <div class="input-group">
+                                <label for="maxRange" class="sr-only">Maximum Number</label>
+                                <input 
+                                    type="number" 
+                                    id="maxRange" 
+                                    placeholder="Max (e.g., 100)" 
+                                    value="100"
+                                    aria-label="Maximum number in range"
+                                >
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="difficulty" class="sr-only">Difficulty Level</label>
+                            <select id="difficulty" aria-label="Difficulty level">
+                                <option value="easy">Easy (1-100)</option>
+                                <option value="medium">Medium (1-1000)</option>
+                                <option value="hard">Hard (1-10000)</option>
+                            </select>
+                        </div>
+                        <button 
+                            id="startBtn" 
+                            class="btn btn-primary btn-large"
+                            aria-label="Start the game"
+                        >
+                            🚀 Start Game
+                        </button>
+                    </div>
+
+                    <!-- Algorithm Info -->
+                    <div class="algorithm-info">
+                        <div class="info-icon">💡</div>
+                        <p><strong>How it works:</strong> Binary search splits the range in half with each guess, finding your number in at most log₂(n) + 1 guesses!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Game Section -->
+            <section class="game-play hidden" id="gameSection">
+                <div class="card">
+                    <h2>Think of a Number!</h2>
+                    <div class="range-display">
+                        <span id="currentRange">Range: <strong id="rangeText">1 - 100</strong></span>
+                    </div>
+                    
+                    <div class="ai-guess-container">
+                        <div class="ai-guess-card" id="guessCard">
+                            <div class="guess-number" id="guessNumber">?</div>
+                            <p class="guess-label">AI's Guess</p>
+                        </div>
+                    </div>
+
+                    <div class="response-buttons">
+                        <button 
+                            id="tooLowBtn" 
+                            class="btn btn-secondary"
+                            aria-label="AI guess is too low"
+                        >
+                            ⬆️ Too Low
+                        </button>
+                        <button 
+                            id="correctBtn" 
+                            class="btn btn-success"
+                            aria-label="AI guess is correct"
+                        >
+                            ✅ Correct!
+                        </button>
+                        <button 
+                            id="tooHighBtn" 
+                            class="btn btn-secondary"
+                            aria-label="AI guess is too high"
+                        >
+                            ⬇️ Too High
+                        </button>
+                    </div>
+
+                    <div class="game-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Guesses:</span>
+                            <span class="stat-value" id="guessCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Time:</span>
+                            <span class="stat-value" id="timeElapsed">0s</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Max Guesses:</span>
+                            <span class="stat-value" id="maxGuesses">7</span>
+                        </div>
+                    </div>
+
+                    <div class="guess-history" id="guessHistory">
+                        <h3>Guess History</h3>
+                        <div id="historyList" class="history-list"></div>
+                    </div>
+
+                    <button 
+                        id="resetBtn" 
+                        class="btn btn-reset"
+                        aria-label="Reset the game"
+                    >
+                        🔄 New Game
+                    </button>
+                </div>
+            </section>
+
+            <!-- Win Section -->
+            <section class="win-screen hidden" id="winSection">
+                <div class="card win-card">
+                    <div class="win-animation">🎉</div>
+                    <h2>AI Guessed It!</h2>
+                    <div class="win-stats">
+                        <p>The number was <strong id="finalNumber">?</strong></p>
+                        <p>Guessed in <strong id="finalGuesses">0</strong> tries</p>
+                        <p>Time taken: <strong id="finalTime">0s</strong></p>
+                        <p class="efficiency" id="efficiency"></p>
+                    </div>
+                    
+                    <!-- Time Efficiency Section -->
+                    <div class="time-efficiency-container">
+                        <div class="time-efficiency-card">
+                            <div class="time-efficiency-header">
+                                <span class="time-icon">⏱️</span>
+                                <h3>Time Efficiency</h3>
+                            </div>
+                            <div class="time-stats-grid">
+                                <div class="time-stat-item">
+                                    <span class="time-stat-label">Time per Guess</span>
+                                    <span class="time-stat-value" id="timePerGuess">0s</span>
+                                </div>
+                                <div class="time-stat-item">
+                                    <span class="time-stat-label">Average Speed</span>
+                                    <span class="time-stat-value" id="averageSpeed">-</span>
+                                </div>
+                                <div class="time-stat-item">
+                                    <span class="time-stat-label">Efficiency Rating</span>
+                                    <span class="time-stat-value" id="timeEfficiencyRating">-</span>
+                                </div>
+                            </div>
+                            <div class="time-efficiency-message" id="timeEfficiencyMessage"></div>
+                        </div>
+                    </div>
+                    <div class="win-buttons">
+                        <button 
+                            id="playAgainBtn" 
+                            class="btn btn-primary"
+                            aria-label="Play again"
+                        >
+                            🎮 Play Again
+                        </button>
+                        <button 
+                            id="newGameBtn" 
+                            class="btn btn-secondary"
+                            aria-label="Start new game with different settings"
+                        >
+                            🔄 New Settings
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Built with Binary Search Algorithm | Accessible & Responsive</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
